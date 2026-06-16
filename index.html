@@ -250,7 +250,7 @@ footer{border-top:1px solid var(--bd);padding:34px 56px;display:flex;align-items
       </div>
       <div class="hbtns">
         <a class="bp" href="#projects">See My Work</a>
-        <a class="bg" href="https://www.linkedin.com/in/pranjay-dhawan-r720" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="bg" href="https://linkedin.com/in/pranjay-dhawan" target="_blank" rel="noopener">LinkedIn ↗</a>
         <button class="bg" onclick="openCM()">Email Me</button>
       </div>
     </div>
@@ -536,9 +536,20 @@ function sendCM(){
   const body=`Hi Pranjay,\n\nMy name is ${name} (${email}).\n\n${msg}\n\nBest regards,\n${name}`;
   const finalSubj=subj||`Message from ${name} via Portfolio`;
   const mailto=`mailto:pdhawan50be23@thapar.edu?subject=${encodeURIComponent(finalSubj)}&body=${encodeURIComponent(body)}`;
-  window.location.href=mailto;
-  document.getElementById('cmform').style.display='none';
-  document.getElementById('cmsuccess').style.display='block';
+  // Use anchor click — most cross-browser reliable way to trigger mailto
+  const a=document.createElement('a');
+  a.href=mailto;
+  a.style.display='none';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  // Show success after brief delay so the mailto fires first
+  setTimeout(()=>{
+    document.getElementById('cmform').style.display='none';
+    // Store mailto in case fallback needed
+    document.getElementById('cmfallback').href=mailto;
+    document.getElementById('cmsuccess').style.display='block';
+  },400);
 }
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){
@@ -590,7 +601,9 @@ window.addEventListener('scroll',()=>{
 
     <div class="cmsuccess" id="cmsuccess">
       <div class="tick">✉️</div>
-      <p>Your email app is opening with everything pre-filled.<br/>Just hit <strong style="color:var(--t1)">Send</strong> and I'll get back to you!</p>
+      <p>Your email app should be opening.<br/>Just hit <strong style="color:var(--t1)">Send</strong> and I'll get back to you!</p>
+      <p style="margin-top:16px;font-size:12px;color:var(--t3)">Email app didn't open? <a id="cmfallback" href="#" style="color:var(--cy);text-decoration:none" target="_blank">Click here to try again</a><br/>or write directly to <a href="mailto:pdhawan50be23@thapar.edu" style="color:var(--cy);text-decoration:none">pdhawan50be23@thapar.edu</a></p>
+      <button onclick="openCM()" style="margin-top:20px;background:none;border:1px solid var(--bd);color:var(--t2);padding:8px 18px;border-radius:5px;font-family:var(--fm);font-size:12px;cursor:pointer">← Back to form</button>
     </div>
   </div>
 </div>
