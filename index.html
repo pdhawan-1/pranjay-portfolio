@@ -250,7 +250,7 @@ footer{border-top:1px solid var(--bd);padding:34px 56px;display:flex;align-items
       </div>
       <div class="hbtns">
         <a class="bp" href="#projects">See My Work</a>
-        <a class="bg" href="https://linkedin.com/in/pranjay-dhawan" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="bg" href="https://www.linkedin.com/in/pranjay-dhawan-r720" target="_blank" rel="noopener">LinkedIn ↗</a>
         <button class="bg" onclick="openCM()">Email Me</button>
       </div>
     </div>
@@ -467,7 +467,7 @@ footer{border-top:1px solid var(--bd);padding:34px 56px;display:flex;align-items
   <div class="fn">Pranjay Dhawan<span>Chandigarh, Punjab · +91 9517767766</span></div>
   <div class="fl">
     <a href="mailto:pdhawan50be23@thapar.edu">pdhawan50be23@thapar.edu</a>
-    <a href="https://linkedin.com/in/pranjay-dhawan" target="_blank" rel="noopener">LinkedIn ↗</a>
+    <a href="https://www.linkedin.com/in/pranjay-dhawan-r720" target="_blank" rel="noopener">LinkedIn ↗</a>
   </div>
 </footer>
 
@@ -514,6 +514,10 @@ function openCM(){
   document.getElementById('cm').classList.add('open');
   document.getElementById('cmform').style.display='block';
   document.getElementById('cmsuccess').style.display='none';
+  document.getElementById('cmerr').style.display='none';
+  const btn=document.getElementById('cmbtn');
+  btn.textContent='Send Message →';
+  btn.disabled=false;
   document.body.style.overflow='hidden';
   setTimeout(()=>document.getElementById('cmname').focus(),200);
 }
@@ -521,35 +525,56 @@ function closeCM(){
   document.getElementById('cm').classList.remove('open');
   document.body.style.overflow='';
 }
-function sendCM(){
+async function sendCM(){
   const name=document.getElementById('cmname').value.trim();
   const email=document.getElementById('cmemail').value.trim();
   const subj=document.getElementById('cmsubj').value.trim();
   const msg=document.getElementById('cmmsg').value.trim();
+  const errEl=document.getElementById('cmerr');
+  errEl.style.display='none';
+
+  // Field validation
   if(!name||!email||!msg){
     const empty=!name?'cmname':!email?'cmemail':'cmmsg';
-    document.getElementById(empty).focus();
-    document.getElementById(empty).style.borderColor='#f87171';
-    setTimeout(()=>document.getElementById(empty).style.borderColor='',2000);
+    const el=document.getElementById(empty);
+    el.focus();el.style.borderColor='#f87171';
+    setTimeout(()=>el.style.borderColor='',2200);
     return;
   }
-  const body=`Hi Pranjay,\n\nMy name is ${name} (${email}).\n\n${msg}\n\nBest regards,\n${name}`;
-  const finalSubj=subj||`Message from ${name} via Portfolio`;
-  const mailto=`mailto:pdhawan50be23@thapar.edu?subject=${encodeURIComponent(finalSubj)}&body=${encodeURIComponent(body)}`;
-  // Use anchor click — most cross-browser reliable way to trigger mailto
-  const a=document.createElement('a');
-  a.href=mailto;
-  a.style.display='none';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  // Show success after brief delay so the mailto fires first
-  setTimeout(()=>{
-    document.getElementById('cmform').style.display='none';
-    // Store mailto in case fallback needed
-    document.getElementById('cmfallback').href=mailto;
-    document.getElementById('cmsuccess').style.display='block';
-  },400);
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    const el=document.getElementById('cmemail');
+    el.focus();el.style.borderColor='#f87171';
+    errEl.textContent='Please enter a valid email address.';
+    errEl.style.display='block';
+    setTimeout(()=>el.style.borderColor='',2200);
+    return;
+  }
+
+  // Loading state
+  const btn=document.getElementById('cmbtn');
+  btn.textContent='Sending…';
+  btn.disabled=true;
+
+  try{
+    const res=await fetch('/api/contact',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({name,email,subject:subj,message:msg})
+    });
+    const data=await res.json();
+    if(res.ok && data.success){
+      document.getElementById('cm-reply-email').textContent=email;
+      document.getElementById('cmform').style.display='none';
+      document.getElementById('cmsuccess').style.display='block';
+    }else{
+      throw new Error(data.error||'Something went wrong. Please try again.');
+    }
+  }catch(err){
+    errEl.textContent=err.message;
+    errEl.style.display='block';
+    btn.textContent='Send Message →';
+    btn.disabled=false;
+  }
 }
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){
@@ -595,15 +620,16 @@ window.addEventListener('scroll',()=>{
         <label>Message</label>
         <textarea id="cmmsg" placeholder="Tell me about what you have in mind…"></textarea>
       </div>
-      <button class="cmsend" onclick="sendCM()">Open in Email App →</button>
+      <div id="cmerr" style="display:none;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);border-radius:6px;padding:10px 14px;font-size:13px;color:#f87171;margin-bottom:14px"></div>
+      <button class="cmsend" id="cmbtn" onclick="sendCM()">Send Message →</button>
       <p class="cmalt">Or write directly at <a href="mailto:pdhawan50be23@thapar.edu">pdhawan50be23@thapar.edu</a></p>
     </div>
 
     <div class="cmsuccess" id="cmsuccess">
-      <div class="tick">✉️</div>
-      <p>Your email app should be opening.<br/>Just hit <strong style="color:var(--t1)">Send</strong> and I'll get back to you!</p>
-      <p style="margin-top:16px;font-size:12px;color:var(--t3)">Email app didn't open? <a id="cmfallback" href="#" style="color:var(--cy);text-decoration:none" target="_blank">Click here to try again</a><br/>or write directly to <a href="mailto:pdhawan50be23@thapar.edu" style="color:var(--cy);text-decoration:none">pdhawan50be23@thapar.edu</a></p>
-      <button onclick="openCM()" style="margin-top:20px;background:none;border:1px solid var(--bd);color:var(--t2);padding:8px 18px;border-radius:5px;font-family:var(--fm);font-size:12px;cursor:pointer">← Back to form</button>
+      <div class="tick">✅</div>
+      <p style="font-size:18px;font-weight:600;color:var(--t1);margin-bottom:8px">Message sent!</p>
+      <p style="color:var(--t2);font-size:14px;line-height:1.7">Thanks for reaching out. I'll get back to you at<br/><strong style="color:var(--t1)" id="cm-reply-email"></strong> as soon as possible.</p>
+      <button onclick="closeCM()" style="margin-top:22px;background:var(--cy);color:var(--bg);border:none;padding:10px 24px;border-radius:6px;font-family:var(--fm);font-size:13px;font-weight:600;cursor:pointer">Close</button>
     </div>
   </div>
 </div>
