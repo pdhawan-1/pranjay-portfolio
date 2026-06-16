@@ -1,14 +1,10 @@
 {
   "version": 2,
   "name": "pranjay-portfolio",
-  "builds": [{ "src": "index.html", "use": "@vercel/static" }],
-  "routes": [{ "src": "/(.*)", "dest": "/index.html" }],
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=3600" }
-      ]
+  "functions": {
+    "api/contact.js": {
+      "memory": 256,
+      "maxDuration": 10
     }
-  ]
+  }
 }
