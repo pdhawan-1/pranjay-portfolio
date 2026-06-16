@@ -82,7 +82,7 @@ export default async function handler(req, res) {
     await transporter.sendMail({
       from: `"Portfolio — Pranjay Dhawan" <${process.env.GMAIL_USER}>`,
       replyTo: `"${name}" <${email}>`,
-      to: 'pdhawan50be23@thapar.edu',
+      to: 'pdhawan50_be23@thapar.edu',
       subject: emailSubject,
       text: `From: ${name} <${email}>\nSubject: ${subject || '—'}\n\n${message}`,
       html: htmlBody,
@@ -92,7 +92,7 @@ export default async function handler(req, res) {
   } catch (err) {
     console.error('Mailer error:', err.message);
     return res.status(500).json({
-      error: 'Could not send your message. Please email pdhawan50be23@thapar.edu directly.',
+      error: 'Could not send your message. Please email pdhawan50_be23@thapar.edu directly.',
     });
   }
 }
