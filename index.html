@@ -176,6 +176,29 @@ footer{border-top:1px solid var(--bd);padding:34px 56px;display:flex;align-items
   .psg{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:560px){.skgrid{grid-template-columns:1fr}.awg{grid-template-columns:1fr}}
+
+/* ── CONTACT MODAL ── */
+.cm{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:300;align-items:center;justify-content:center;padding:20px}
+.cm.open{display:flex}
+.cmbox{background:var(--s1);border:1px solid var(--bd);border-radius:14px;padding:40px;width:100%;max-width:500px;position:relative;animation:slideUp .28s ease}
+@keyframes slideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.cmx{position:absolute;top:16px;right:20px;font-size:22px;color:var(--t2);cursor:pointer;background:none;border:none;line-height:1;transition:color .18s}.cmx:hover{color:var(--cy)}
+.cmlbl{font-family:var(--fm);font-size:11px;color:var(--cy);letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px}
+.cmbox h3{font-family:var(--fd);font-size:24px;font-weight:700;color:var(--t1);margin-bottom:6px}
+.cmsub{font-size:13px;color:var(--t2);margin-bottom:28px}
+.cmfield{display:flex;flex-direction:column;gap:6px;margin-bottom:18px}
+.cmfield label{font-family:var(--fm);font-size:11px;color:var(--t3);letter-spacing:.08em;text-transform:uppercase}
+.cmfield input,.cmfield textarea{background:var(--bg);border:1px solid var(--bd);border-radius:6px;padding:11px 14px;color:var(--t1);font-family:var(--fb);font-size:14px;outline:none;transition:border-color .18s;resize:none}
+.cmfield input:focus,.cmfield textarea:focus{border-color:var(--cy)}
+.cmfield input::placeholder,.cmfield textarea::placeholder{color:var(--t3)}
+.cmfield textarea{height:120px}
+.cmsend{width:100%;background:var(--cy);color:var(--bg);border:none;border-radius:6px;padding:13px;font-family:var(--fm);font-size:13px;font-weight:600;cursor:pointer;transition:opacity .2s;margin-top:4px}
+.cmsend:hover{opacity:.87}
+.cmalt{text-align:center;margin-top:16px;font-size:12px;color:var(--t3)}
+.cmalt a{color:var(--cy);text-decoration:none}.cmalt a:hover{text-decoration:underline}
+.cmsuccess{display:none;text-align:center;padding:20px 0}
+.cmsuccess .tick{font-size:44px;margin-bottom:14px}
+.cmsuccess p{color:var(--t2);font-size:14px;line-height:1.7}
 </style>
 </head>
 <body>
@@ -191,7 +214,7 @@ footer{border-top:1px solid var(--bd);padding:34px 56px;display:flex;align-items
     <li><a href="#pubs">Research</a></li>
     <li><a href="#skills">Skills</a></li>
   </ul>
-  <a class="ncta" href="mailto:pdhawan50be23@thapar.edu">Contact</a>
+  <button class="ncta" onclick="openCM()">Contact</button>
 </nav>
 
 <!-- HERO -->
@@ -228,7 +251,7 @@ footer{border-top:1px solid var(--bd);padding:34px 56px;display:flex;align-items
       <div class="hbtns">
         <a class="bp" href="#projects">See My Work</a>
         <a class="bg" href="https://linkedin.com/in/pranjay-dhawan" target="_blank" rel="noopener">LinkedIn ↗</a>
-        <a class="bg" href="mailto:pdhawan50be23@thapar.edu">Email Me</a>
+        <button class="bg" onclick="openCM()">Email Me</button>
       </div>
     </div>
     <div class="hphoto"><img data-src="profile" alt="Pranjay Dhawan"/></div>
@@ -486,7 +509,43 @@ setInterval(()=>gs(1),4500);
 
 // ── Lightbox ──
 function lb(src){document.getElementById('lbi').src=src;document.getElementById('lbx').classList.add('open');}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('lbx').classList.remove('open');});
+// ── Contact modal ──
+function openCM(){
+  document.getElementById('cm').classList.add('open');
+  document.getElementById('cmform').style.display='block';
+  document.getElementById('cmsuccess').style.display='none';
+  document.body.style.overflow='hidden';
+  setTimeout(()=>document.getElementById('cmname').focus(),200);
+}
+function closeCM(){
+  document.getElementById('cm').classList.remove('open');
+  document.body.style.overflow='';
+}
+function sendCM(){
+  const name=document.getElementById('cmname').value.trim();
+  const email=document.getElementById('cmemail').value.trim();
+  const subj=document.getElementById('cmsubj').value.trim();
+  const msg=document.getElementById('cmmsg').value.trim();
+  if(!name||!email||!msg){
+    const empty=!name?'cmname':!email?'cmemail':'cmmsg';
+    document.getElementById(empty).focus();
+    document.getElementById(empty).style.borderColor='#f87171';
+    setTimeout(()=>document.getElementById(empty).style.borderColor='',2000);
+    return;
+  }
+  const body=`Hi Pranjay,\n\nMy name is ${name} (${email}).\n\n${msg}\n\nBest regards,\n${name}`;
+  const finalSubj=subj||`Message from ${name} via Portfolio`;
+  const mailto=`mailto:pdhawan50be23@thapar.edu?subject=${encodeURIComponent(finalSubj)}&body=${encodeURIComponent(body)}`;
+  window.location.href=mailto;
+  document.getElementById('cmform').style.display='none';
+  document.getElementById('cmsuccess').style.display='block';
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    document.getElementById('lbx').classList.remove('open');
+    closeCM();
+  }
+});
 
 // ── Scroll reveal ──
 const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('on');io.unobserve(x.target);}})  ,{threshold:.08});
@@ -500,5 +559,41 @@ window.addEventListener('scroll',()=>{
   nls.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur));
 },{passive:true});
 </script>
+<!-- CONTACT MODAL -->
+<div class="cm" id="cm" onclick="if(event.target===this)closeCM()">
+  <div class="cmbox">
+    <button class="cmx" onclick="closeCM()">&times;</button>
+    <div class="cmlbl">Get in touch</div>
+    <h3>Send me a message</h3>
+    <p class="cmsub">I'll reply from <strong style="color:var(--t1)">pdhawan50be23@thapar.edu</strong></p>
+
+    <div id="cmform">
+      <div class="cmfield">
+        <label>Your Name</label>
+        <input type="text" id="cmname" placeholder="e.g. Rahul Sharma" autocomplete="name"/>
+      </div>
+      <div class="cmfield">
+        <label>Your Email</label>
+        <input type="email" id="cmemail" placeholder="you@example.com" autocomplete="email"/>
+      </div>
+      <div class="cmfield">
+        <label>Subject</label>
+        <input type="text" id="cmsubj" placeholder="e.g. Internship opportunity / Project collaboration"/>
+      </div>
+      <div class="cmfield">
+        <label>Message</label>
+        <textarea id="cmmsg" placeholder="Tell me about what you have in mind…"></textarea>
+      </div>
+      <button class="cmsend" onclick="sendCM()">Open in Email App →</button>
+      <p class="cmalt">Or write directly at <a href="mailto:pdhawan50be23@thapar.edu">pdhawan50be23@thapar.edu</a></p>
+    </div>
+
+    <div class="cmsuccess" id="cmsuccess">
+      <div class="tick">✉️</div>
+      <p>Your email app is opening with everything pre-filled.<br/>Just hit <strong style="color:var(--t1)">Send</strong> and I'll get back to you!</p>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
