@@ -364,8 +364,6 @@ footer{border-top:1px solid var(--bd);padding:34px 56px;display:flex;align-items
       <div class="gslides" id="gsl">
         <img data-src="rover1" alt="Pranjay with Rover Ganga at IRC 2026"/>
         <img data-src="rover2" alt="Martian Rover Ganga on terrain"/>
-        <img data-src="rover_g1" alt="Ganga — close-up of electronics and drill arm"/>
-        <img data-src="rover_g2" alt="Ganga — rover at TIET campus testing"/>
         <img data-src="rover_g3" alt="Team MARS with trophies — IRC & ISDC 2026"/>
       </div>
       <button class="garr lft" onclick="gs(-1)">&#8249;</button>
@@ -374,8 +372,6 @@ footer{border-top:1px solid var(--bd);padding:34px 56px;display:flex;align-items
         <button class="gd on" onclick="gt(0)"></button>
         <button class="gd" onclick="gt(1)"></button>
         <button class="gd" onclick="gt(2)"></button>
-        <button class="gd" onclick="gt(3)"></button>
-        <button class="gd" onclick="gt(4)"></button>
       </div>
     </div>
     <div class="finfo">
@@ -441,6 +437,8 @@ footer{border-top:1px solid var(--bd);padding:34px 56px;display:flex;align-items
           <img data-src="al1" alt="Alaknanda rover navigating terrain at IRC 2025"/>
           <img data-src="al2" alt="Alaknanda with 1st Runner Up trophy — IRC 2025"/>
           <img data-src="al3" alt="Team at International Space Robotics Week Award Ceremony 2025"/>
+          <img data-src="rover_g1" alt="Alaknanda — close-up of electronics and drill arm"/>
+          <img data-src="rover_g2" alt="Alaknanda — rover at TIET campus"/>
         </div>
         <button class="pc-arr l" onclick="ags(-1)">&#8249;</button>
         <button class="pc-arr r" onclick="ags(1)">&#8250;</button>
@@ -448,6 +446,8 @@ footer{border-top:1px solid var(--bd);padding:34px 56px;display:flex;align-items
           <button class="pcd on" onclick="agt(0)"></button>
           <button class="pcd" onclick="agt(1)"></button>
           <button class="pcd" onclick="agt(2)"></button>
+          <button class="pcd" onclick="agt(3)"></button>
+          <button class="pcd" onclick="agt(4)"></button>
         </div>
       </div>
       <div class="pcb2">
@@ -581,7 +581,7 @@ document.querySelectorAll('img[data-src]').forEach(el=>{
 
 // ── Rover gallery slider ──
 let ci=0;
-function gs(d){ci=(ci+d+5)%5;gt(ci);}
+function gs(d){ci=(ci+d+3)%3;gt(ci);}
 function gt(i){
   ci=i;
   document.getElementById('gsl').style.transform=`translateX(-${i*100}%)`;
@@ -690,7 +690,7 @@ window.addEventListener('scroll',()=>{
 
 // ── Alaknanda card slider ──
 let aci=0;
-function ags(d){aci=(aci+d+3)%3;agt(aci);}
+function ags(d){aci=(aci+d+5)%5;agt(aci);}
 function agt(i){
   aci=i;
   document.getElementById('asl').style.transform=`translateX(-${i*100}%)`;
