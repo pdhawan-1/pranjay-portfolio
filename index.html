@@ -81,7 +81,7 @@ hr{border:none;border-top:1px solid var(--bd)}
 .feat{background:var(--bg);border:1px solid var(--bd);border-radius:14px;overflow:hidden;margin-bottom:14px;display:grid;grid-template-columns:1fr 1fr}
 .gal{position:relative;overflow:hidden;background:#071828}
 .gslides{display:flex;transition:transform .42s cubic-bezier(.4,0,.2,1);height:100%}
-.gslides img{min-width:100%;height:350px;object-fit:contain;flex-shrink:0}
+.gslides img{min-width:100%;height:350px;object-fit:contain;flex-shrink:0;cursor:zoom-in}
 .gdots{position:absolute;bottom:13px;left:50%;transform:translateX(-50%);display:flex;gap:6px}
 .gd{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;border:none;transition:background .2s}.gd.on{background:var(--cy)}
 .garr{position:absolute;top:50%;transform:translateY(-50%);background:rgba(6,9,15,.72);border:1px solid var(--bd);color:var(--t1);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:background .2s;z-index:2;border:none}.garr:hover{background:var(--cy);color:var(--bg)}.garr.lft{left:11px}.garr.rgt{right:11px}
@@ -203,7 +203,7 @@ footer{border-top:1px solid var(--bd);padding:34px 56px;display:flex;align-items
 /* ── Mini-slider for project cards ── */
 .pc-gal{position:relative;overflow:hidden;height:210px;background:#0D2238}
 .pc-slides{display:flex;transition:transform .38s cubic-bezier(.4,0,.2,1);height:100%}
-.pc-slides img{min-width:100%;height:210px;object-fit:contain;flex-shrink:0}
+.pc-slides img{min-width:100%;height:210px;object-fit:contain;flex-shrink:0;cursor:zoom-in}
 .pc-arr{position:absolute;top:50%;transform:translateY(-50%);background:rgba(6,9,15,.65);border:1px solid var(--bd);color:var(--t1);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:background .18s;z-index:2;border:none}
 .pc-arr:hover{background:var(--cy);color:var(--bg)}
 .pc-arr.l{left:9px}.pc-arr.r{right:9px}
@@ -362,9 +362,9 @@ footer{border-top:1px solid var(--bd);padding:34px 56px;display:flex;align-items
   <div class="feat rv">
     <div class="gal" id="gal">
       <div class="gslides" id="gsl">
-        <img data-src="rover1" alt="Pranjay with Rover Ganga at IRC 2026"/>
-        <img data-src="rover2" alt="Martian Rover Ganga on terrain"/>
-        <img data-src="rover_g3" alt="Team MARS with trophies — IRC & ISDC 2026"/>
+        <img data-src="rover1" alt="Pranjay with Rover Ganga at IRC 2026" onclick="lb(this.src)"/>
+        <img data-src="rover2" alt="Martian Rover Ganga on terrain" onclick="lb(this.src)"/>
+        <img data-src="rover_g3" alt="Team MARS with trophies — IRC & ISDC 2026" onclick="lb(this.src)"/>
       </div>
       <button class="garr lft" onclick="gs(-1)">&#8249;</button>
       <button class="garr rgt" onclick="gs(1)">&#8250;</button>
@@ -399,10 +399,10 @@ footer{border-top:1px solid var(--bd);padding:34px 56px;display:flex;align-items
     <div class="pc">
       <div class="pc-gal" id="dgal">
         <div class="pc-slides" id="dsl">
-          <img data-src="drone_d1" alt="Drone Garud — front view"/>
-          <img data-src="drone_d2" alt="Drone Garud — top view"/>
-          <img data-src="drone_d3" alt="Drone payload PCB — atmospheric sensor board"/>
-          <img data-src="drone_d4" alt="Team MARS at ISDC 2026 award ceremony"/>
+          <img data-src="drone_d1" alt="Drone Garud — front view" onclick="lb(this.src)"/>
+          <img data-src="drone_d2" alt="Drone Garud — top view" onclick="lb(this.src)"/>
+          <img data-src="drone_d3" alt="Drone payload PCB — atmospheric sensor board" onclick="lb(this.src)"/>
+          <img data-src="drone_d4" alt="Team MARS at ISDC 2026 award ceremony" onclick="lb(this.src)"/>
         </div>
         <button class="pc-arr l" onclick="dgs(-1)">&#8249;</button>
         <button class="pc-arr r" onclick="dgs(1)">&#8250;</button>
@@ -422,7 +422,7 @@ footer{border-top:1px solid var(--bd);padding:34px 56px;display:flex;align-items
     </div>
 
     <div class="pc">
-      <img data-src="vocaleyes3" alt="VocalEyes Cap Mount CAD" style="background:#e0e0e0;object-fit:contain;padding:16px"/>
+      <img data-src="vocaleyes3" alt="VocalEyes Cap Mount CAD" style="background:#e0e0e0;object-fit:contain;padding:16px;cursor:zoom-in" onclick="lb(this.src)"/>
       <div class="pcb2">
         <div class="pcname">VocalEyes</div>
         <div class="pcsub">Feb 2025 – Dec 2026 · Assistive Technology</div>
@@ -434,11 +434,11 @@ footer{border-top:1px solid var(--bd);padding:34px 56px;display:flex;align-items
     <div class="pc">
       <div class="pc-gal" id="agal">
         <div class="pc-slides" id="asl">
-          <img data-src="al1" alt="Alaknanda rover navigating terrain at IRC 2025"/>
-          <img data-src="al2" alt="Alaknanda with 1st Runner Up trophy — IRC 2025"/>
-          <img data-src="al3" alt="Team at International Space Robotics Week Award Ceremony 2025"/>
-          <img data-src="rover_g1" alt="Alaknanda — close-up of electronics and drill arm"/>
-          <img data-src="rover_g2" alt="Alaknanda — rover at TIET campus"/>
+          <img data-src="al1" alt="Alaknanda rover navigating terrain at IRC 2025" onclick="lb(this.src)"/>
+          <img data-src="al2" alt="Alaknanda with 1st Runner Up trophy — IRC 2025" onclick="lb(this.src)"/>
+          <img data-src="al3" alt="Team at International Space Robotics Week Award Ceremony 2025" onclick="lb(this.src)"/>
+          <img data-src="rover_g1" alt="Alaknanda — close-up of electronics and drill arm" onclick="lb(this.src)"/>
+          <img data-src="rover_g2" alt="Alaknanda — rover at TIET campus" onclick="lb(this.src)"/>
         </div>
         <button class="pc-arr l" onclick="ags(-1)">&#8249;</button>
         <button class="pc-arr r" onclick="ags(1)">&#8250;</button>
