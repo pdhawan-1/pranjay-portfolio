@@ -14,6 +14,7 @@
   --gr:#34D399;--am:#FBBF24;
   --t1:#EAF5FF;--t2:#80B8D6;--t3:#3A6285;
   --glass:rgba(10,26,44,.55);
+  --chipfg:#A9CFEA;--chipbg:#16304C;
   --navbg:rgba(6,9,15,.85);
   --arrbg:rgba(6,9,15,.7);
   --modalbg:rgba(13,34,56,.78);
@@ -30,6 +31,7 @@ html[data-theme="light"]{
   --gr:#0F9D6E;--am:#C77A06;
   --t1:#0B2233;--t2:#3E5F79;--t3:#8AA5BC;
   --glass:rgba(255,255,255,.62);
+  --chipfg:#2A4C66;--chipbg:#DCE7F2;
   --navbg:rgba(248,251,255,.88);
   --arrbg:rgba(255,255,255,.85);
   --modalbg:rgba(255,255,255,.9);
@@ -131,7 +133,7 @@ hr{border:none;border-top:1px solid var(--bd)}
 .pcdesc{font-size:15px;color:var(--t2);line-height:1.65;margin-bottom:14px}
 /* chip */
 .chips{display:flex;flex-wrap:wrap;gap:6px}
-.chip{font-family:var(--fm);font-size:15px;color:var(--t3);background:var(--s2);border:1px solid var(--bd);padding:3px 9px;border-radius:3px}
+.chip{font-family:var(--fm);font-size:15px;color:var(--chipfg);background:var(--chipbg);border:1px solid var(--bd);padding:3px 9px;border-radius:3px;transition:color .2s,background .2s,border-color .2s}
 
 /* HARDWARE */
 #hw{background:var(--bg)}
@@ -163,7 +165,7 @@ hr{border:none;border-top:1px solid var(--bd)}
 .sg{background:var(--s1);border:1px solid var(--bd);border-radius:var(--r);padding:21px}
 .sgn{font-family:var(--fm);font-size:14px;color:var(--gr);letter-spacing:.12em;text-transform:uppercase;margin-bottom:13px;padding-bottom:11px;border-bottom:1px solid var(--bd)}
 .scc{display:flex;flex-wrap:wrap;gap:6px}
-.scc span{font-family:var(--fm);font-size:14px;color:var(--t2);background:var(--s2);border:1px solid var(--bd);padding:4px 10px;border-radius:3px;transition:color .15s,border-color .15s;cursor:default}
+.scc span{font-family:var(--fm);font-size:14px;color:var(--chipfg);background:var(--chipbg);border:1px solid var(--bd);padding:4px 10px;border-radius:3px;transition:color .15s,border-color .15s,background .2s;cursor:default}
 .scc span:hover{color:var(--cy);border-color:rgba(91,196,255,.35)}
 
 /* AWARDS */
@@ -515,12 +517,8 @@ html[data-theme="light"] .ncta{background:#FFFFFF}
 html[data-theme="light"] .hphoto img{box-shadow:0 12px 44px rgba(20,50,80,.18)}
 
 /* 4. Tech chips were nearly invisible (used the palest text var) */
-html[data-theme="light"] .chip{
-  color:#2A4C66;background:#DCE7F2;border-color:#B4CADF;font-weight:500;
-}
-html[data-theme="light"] .scc span{
-  color:#20415A;background:#DCE7F2;border-color:#B4CADF;font-weight:500;
-}
+
+
 html[data-theme="light"] .chip:hover,html[data-theme="light"] .scc span:hover{
   color:#0A6FB5;border-color:var(--cy);background:#D0E4F5;
 }
@@ -532,6 +530,28 @@ html[data-theme="light"] .pbm,html[data-theme="light"] .icn{color:#4A7290}
 html[data-theme="light"] .sgn{color:#0B7A57}
 html[data-theme="light"] .slbl{color:#0A6FB5}
 
+
+/* ══════ DARK MODE CONTRAST FIXES ══════ */
+html[data-theme="dark"] .chip,:root .chip{color:var(--chipfg);background:var(--chipbg)}
+html[data-theme="dark"] .chip:hover,html[data-theme="dark"] .scc span:hover{
+  color:#DCF1FF;border-color:var(--cy);background:#1D3E60;
+}
+/* small mono captions were sitting on --t3 (#3A6285) — too dim on navy */
+html:not([data-theme="light"]) .hwcap p,
+html:not([data-theme="light"]) .pslbl,
+html:not([data-theme="light"]) .tld,
+html:not([data-theme="light"]) .edu span,
+html:not([data-theme="light"]) .pbm,
+html:not([data-theme="light"]) .icn,
+html:not([data-theme="light"]) .project-period,
+html:not([data-theme="light"]) .ft-name span,
+html:not([data-theme="light"]) .fl a{color:#7FA8C8}
+html:not([data-theme="light"]) .cmalt{color:#7FA8C8}
+
+
+html[data-theme="light"] .chip,html[data-theme="light"] .scc span{
+  border-color:#B4CADF;font-weight:500;
+}
 </style>
 <script>
 /* ══ THEME ENGINE — applied before first paint to avoid flash ══ */
