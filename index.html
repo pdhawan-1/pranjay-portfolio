@@ -476,6 +476,62 @@ html[data-theme="light"] #prog{box-shadow:0 0 8px rgba(10,111,181,.6)}
 /* theme button */
 html[data-theme="light"] #thm{background:rgba(255,255,255,.7)}
 
+
+/* ══════ LIGHT MODE CONTRAST FIXES ══════ */
+
+/* 1. Circuit lines were overpowering the hero text — dial them back
+      and keep them strictly behind content */
+html[data-theme="light"] .cbg{opacity:.20}
+html[data-theme="light"] .tracebase .cp{stroke:#7FA3C4!important;opacity:.55;stroke-width:1.2}
+html[data-theme="light"] .flow{filter:drop-shadow(0 0 4px rgba(10,111,181,.35))}
+html[data-theme="light"] .f1,
+html[data-theme="light"] .f2,
+html[data-theme="light"] .f4,
+html[data-theme="light"] .f5,
+html[data-theme="light"] .f7{stroke:#3E8CC4!important;stroke-width:1.9}
+html[data-theme="light"] .f3,
+html[data-theme="light"] .f6{stroke:#3FAF8A!important;stroke-width:1.8}
+html[data-theme="light"] .pad{opacity:.55}
+/* softer dot grid so it stops fighting the copy */
+html[data-theme="light"] body{background-image:radial-gradient(rgba(160,188,212,.35) 1px,transparent 1px);background-size:32px 32px}
+
+/* 2. Hero copy sits on its own readable layer above the traces */
+.cbg{z-index:0}
+.hi{z-index:3}
+.ht p.hsub,.ht h1,.hlbl{position:relative}
+html[data-theme="light"] .hsub{color:#2E4F68}
+
+/* 3. Hero pills/buttons were see-through — give them solid fills */
+html[data-theme="light"] .tag{
+  background:#E4F5EE;border-color:#9DD3BE;color:#0A6B4C;
+}
+html[data-theme="light"] .bg{
+  background:#FFFFFF;border-color:#B9CFE3;color:#1B4560;
+  box-shadow:0 1px 3px rgba(20,50,80,.07);
+}
+html[data-theme="light"] .bg:hover{border-color:var(--cy);color:var(--cy)}
+html[data-theme="light"] .bp{color:#FFFFFF;box-shadow:0 2px 8px rgba(10,111,181,.28)}
+html[data-theme="light"] .ncta{background:#FFFFFF}
+html[data-theme="light"] .hphoto img{box-shadow:0 12px 44px rgba(20,50,80,.18)}
+
+/* 4. Tech chips were nearly invisible (used the palest text var) */
+html[data-theme="light"] .chip{
+  color:#2A4C66;background:#DCE7F2;border-color:#B4CADF;font-weight:500;
+}
+html[data-theme="light"] .scc span{
+  color:#20415A;background:#DCE7F2;border-color:#B4CADF;font-weight:500;
+}
+html[data-theme="light"] .chip:hover,html[data-theme="light"] .scc span:hover{
+  color:#0A6FB5;border-color:var(--cy);background:#D0E4F5;
+}
+/* small mono captions under PCB/hardware cards */
+html[data-theme="light"] .hwcap p,html[data-theme="light"] .pslbl,
+html[data-theme="light"] .pcsub,html[data-theme="light"] .fsub{color:#3E6784}
+html[data-theme="light"] .tld,html[data-theme="light"] .edu span,
+html[data-theme="light"] .pbm,html[data-theme="light"] .icn{color:#4A7290}
+html[data-theme="light"] .sgn{color:#0B7A57}
+html[data-theme="light"] .slbl{color:#0A6FB5}
+
 </style>
 <script>
 /* ══ THEME ENGINE — applied before first paint to avoid flash ══ */
