@@ -13,8 +13,25 @@
   --cy:#5BC4FF;--cyd:rgba(91,196,255,.13);
   --gr:#34D399;--am:#FBBF24;
   --t1:#EAF5FF;--t2:#80B8D6;--t3:#3A6285;
+  --glass:rgba(10,26,44,.55);
+  --cadbg:#dddddd;
+  --shadow:rgba(0,0,0,.35);
   --fd:'Space Grotesk',sans-serif;--fb:'Inter',sans-serif;--fm:'JetBrains Mono',monospace;
   --r:10px;
+}
+/* ══ LIGHT THEME — blueprint / whiteboard feel ══ */
+html[data-theme="light"]{
+  --bg:#EEF4FA;--s1:#FFFFFF;--s2:#E3ECF6;--bd:#C2D5E8;
+  --cy:#0A6FB5;--cyd:rgba(10,111,181,.10);
+  --gr:#0F9D6E;--am:#C77A06;
+  --t1:#0B2233;--t2:#3E5F79;--t3:#8AA5BC;
+  --glass:rgba(255,255,255,.62);
+  --cadbg:#f2f2f2;
+  --shadow:rgba(20,50,80,.12);
+}
+/* smooth cross-fade when theme flips */
+html.theming *,html.theming *::before,html.theming *::after{
+  transition:background-color .5s ease,color .5s ease,border-color .5s ease,box-shadow .5s ease,fill .5s ease,stroke .5s ease!important;
 }
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--t1);font-family:var(--fb);line-height:1.65;overflow-x:hidden}
@@ -28,7 +45,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 
 /* HERO */
 #hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:110px 56px 80px;overflow:hidden}
-.cbg{position:absolute;inset:0;pointer-events:none;opacity:.13}
+.cbg{position:absolute;inset:0;pointer-events:none;opacity:.30;transition:opacity .5s}
+html[data-theme="light"] .cbg{opacity:.38}
 .hi{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:48px;width:100%;max-width:1160px;margin:0 auto}
 .ht{flex:1}
 .hlbl{font-family:var(--fm);font-size:15px;color:var(--cy);letter-spacing:.14em;text-transform:uppercase;margin-bottom:18px;display:flex;align-items:center;gap:12px}.hlbl::before{content:'';display:block;width:28px;height:1px;background:var(--cy)}
@@ -154,9 +172,64 @@ footer{border-top:1px solid var(--bd);padding:34px 56px;display:flex;align-items
 .fl{display:flex;gap:18px}.fl a{font-family:var(--fm);font-size:14px;color:var(--t3);text-decoration:none;transition:color .2s}.fl a:hover{color:var(--cy)}
 
 /* CIRCUIT ANIM */
-.cp{stroke-dasharray:1000;stroke-dashoffset:1000;animation:draw 4s cubic-bezier(.4,0,.2,1) forwards}
-.cp:nth-child(2){animation-delay:.5s}.cp:nth-child(3){animation-delay:.9s}.cp:nth-child(4){animation-delay:1.2s}.cp:nth-child(5){animation-delay:1.5s}
+/* ── base traces draw in on load ── */
+.cp{stroke-dasharray:1000;stroke-dashoffset:1000;animation:draw 3.2s cubic-bezier(.4,0,.2,1) forwards;opacity:.5}
+.tracebase .cp:nth-child(2){animation-delay:.4s}
+.tracebase .cp:nth-child(3){animation-delay:.8s}
+.tracebase .cp:nth-child(4){animation-delay:1.1s}
+.tracebase .cp:nth-child(5){animation-delay:1.4s}
+.tracebase .cp:nth-child(6){animation-delay:1.7s}
+.tracebase .cp:nth-child(7){animation-delay:2s}
 @keyframes draw{to{stroke-dashoffset:0}}
+
+/* ── CURRENT FLOW: slow, smooth pulse gliding along the trace ── */
+.flowlayer{opacity:0;animation:flowIn 1.6s ease 2.2s forwards}
+@keyframes flowIn{to{opacity:1}}
+.flow{
+  stroke-linecap:round;
+  stroke-dasharray:130 870;
+  filter:drop-shadow(0 0 7px currentColor);
+  animation:current linear infinite;
+}
+@keyframes current{from{stroke-dashoffset:1000}to{stroke-dashoffset:0}}
+.f1{animation-duration:18s}
+.f2{animation-duration:24s;animation-delay:-8s}
+.f3{animation-duration:21s;animation-delay:-4s}
+.f4{animation-duration:11s;animation-delay:-3s;stroke-dasharray:70 250}
+.f5{animation-duration:13s;animation-delay:-5s;stroke-dasharray:90 450}
+.f6{animation-duration:17s;animation-delay:-9s;stroke-dasharray:110 720}
+.f7{animation-duration:20s;animation-delay:-11s;stroke-dasharray:110 720}
+
+.pad{animation:padPulse 6s ease-in-out infinite}
+.p2{animation-delay:1s}.p3{animation-delay:2s}
+.p4{animation-delay:3s}.p5{animation-delay:4s}.p6{animation-delay:5s}
+@keyframes padPulse{0%,100%{opacity:.45;r:4}48%{opacity:1;r:5.4;filter:drop-shadow(0 0 8px currentColor)}}
+
+.chip{animation:chipBreathe 9s ease-in-out infinite}
+.chip.c2{animation-delay:4.5s}
+@keyframes chipBreathe{0%,100%{opacity:.22}50%{opacity:.5}}
+
+/* ══ LIGHT MODE — traces were washing out, darken + strengthen ══ */
+html[data-theme="light"] .cbg{opacity:.85}
+html[data-theme="light"] .tracebase .cp{stroke:#5C8CB5!important;opacity:.75;stroke-width:1.5}
+html[data-theme="light"] .flow{filter:drop-shadow(0 0 5px rgba(10,111,181,.55))}
+html[data-theme="light"] .f1,
+html[data-theme="light"] .f2,
+html[data-theme="light"] .f4,
+html[data-theme="light"] .f5,
+html[data-theme="light"] .f7{stroke:#0A6FB5!important;stroke-width:2.4}
+html[data-theme="light"] .f3,
+html[data-theme="light"] .f6{stroke:#0E9E72!important;stroke-width:2.2}
+html[data-theme="light"] .pad{fill:#0A6FB5!important;opacity:.8}
+html[data-theme="light"] .p3,html[data-theme="light"] .p4{fill:#0E9E72!important}
+html[data-theme="light"] .chip{stroke:#5C8CB5!important;opacity:.5}
+html[data-theme="light"] .cbg g[filter="url(#cglow)"] circle{fill:#0A6FB5}
+
+/* respect reduced-motion preference */
+@media(prefers-reduced-motion:reduce){
+  .flow,.pad,.chip{animation:none}
+  .flowlayer{opacity:.5}
+}
 
 /* REVEAL */
 /* ── iOS/Android-style reveal variants (replay on every scroll pass) ── */
@@ -171,7 +244,7 @@ footer{border-top:1px solid var(--bd);padding:34px 56px;display:flex;align-items
 .rv.on>*{transition-delay:.05s}
 /* ── frosted glass surfaces ── */
 .feat,.pcbstrip,.pc,.hwi,.sg,.aw,.pub,.edu,.st{
-  background:rgba(10,26,44,.55)!important;
+  background:var(--glass)!important;
   backdrop-filter:blur(16px) saturate(1.3);
   -webkit-backdrop-filter:blur(16px) saturate(1.3);
 }
@@ -252,11 +325,138 @@ footer{border-top:1px solid var(--bd);padding:34px 56px;display:flex;align-items
 .lb-inner img{max-width:90vw;max-height:78vh;border-radius:8px;border:1px solid var(--bd)}
 #lb-desc{font-family:var(--fb);font-size:14px;color:var(--t2);text-align:center;max-width:640px;line-height:1.65;padding:0 8px}
 
+
+.navright{display:flex;align-items:center;gap:0}
+
+/* ══ THEME TOGGLE ══ */
+#thm{
+  display:flex;align-items:center;gap:6px;
+  background:none;border:1px solid var(--bd);color:var(--t2);
+  padding:6px 12px;border-radius:20px;cursor:pointer;
+  font-family:var(--fm);font-size:12px;
+  transition:border-color .25s,color .25s,transform .3s cubic-bezier(.34,1.56,.64,1);
+  margin-left:12px;
+}
+#thm:hover{border-color:var(--cy);color:var(--cy);transform:scale(1.06)}
+#thm svg{width:16px;height:16px;transition:transform .55s cubic-bezier(.34,1.56,.64,1)}
+#thm.spin svg{transform:rotate(360deg)}
+#thm-lbl{letter-spacing:.05em}
+@media(max-width:900px){#thm-lbl{display:none}#thm{padding:6px 9px}}
+
+/* ══ LIVELY: animated gradient on headings ══ */
+h1 .ac,h2 .dm{
+  background:linear-gradient(90deg,var(--cy),var(--gr),var(--cy));
+  background-size:200% 100%;
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:shimmer 6s linear infinite;
+}
+@keyframes shimmer{to{background-position:-200% 0}}
+
+/* ══ LIVELY: solder-trace underline that draws under section labels ══ */
+.slbl{position:relative;display:inline-block;padding-bottom:6px}
+.slbl::after{
+  content:'';position:absolute;left:0;bottom:0;height:2px;width:0;
+  background:linear-gradient(90deg,var(--cy),transparent);
+  transition:width .9s cubic-bezier(.22,1,.36,1) .15s;
+}
+.rv.on .slbl::after,.slbl.rv.on::after{width:100%}
+
+/* ══ LIVELY: PCB trace pulse travelling across cards on hover ══ */
+.pc,.hwi,.feat{position:relative;overflow:hidden}
+.pc::after,.hwi::after,.feat::after{
+  content:'';position:absolute;top:0;left:-60%;width:60%;height:100%;
+  background:linear-gradient(90deg,transparent,var(--cyd),transparent);
+  transform:skewX(-18deg);pointer-events:none;opacity:0;
+}
+.pc:hover::after,.hwi:hover::after,.feat:hover::after{
+  animation:sweep 1.1s ease forwards;
+}
+@keyframes sweep{0%{left:-60%;opacity:1}100%{left:110%;opacity:0}}
+
+/* ══ LIVELY: chips pop in with stagger ══ */
+.chips .chip,.scc span{
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1),color .2s,border-color .2s,background .3s;
+}
+.chips .chip:hover,.scc span:hover{transform:translateY(-3px) scale(1.06)}
+
+/* ══ LIVELY: stat numbers glow-pulse ══ */
+.stn{text-shadow:0 0 18px var(--cyd);animation:statGlow 3.5s ease-in-out infinite}
+@keyframes statGlow{0%,100%{text-shadow:0 0 14px var(--cyd)}50%{text-shadow:0 0 30px var(--cy)}}
+
+/* ══ LIVELY: timeline dots pulse ══ */
+.tli::before{animation:dotPulse 2.6s ease-in-out infinite}
+@keyframes dotPulse{0%,100%{box-shadow:0 0 0 2px var(--cy)}50%{box-shadow:0 0 0 5px var(--cyd)}}
+
+/* ══ LIVELY: award cards tilt on hover ══ */
+.aw{transition:transform .45s cubic-bezier(.34,1.56,.64,1),border-color .25s,box-shadow .35s}
+.aw:hover{transform:translateY(-6px) rotate(-1.2deg) scale(1.03);box-shadow:0 14px 40px var(--shadow)}
+.aw:hover .awico{animation:wiggle .6s ease}
+@keyframes wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-12deg) scale(1.15)}75%{transform:rotate(12deg) scale(1.15)}}
+
+/* ══ LIVELY: nav link underline slide ══ */
+.nlinks a{position:relative}
+.nlinks a::after{
+  content:'';position:absolute;left:0;bottom:-4px;height:1.5px;width:0;
+  background:var(--cy);transition:width .3s cubic-bezier(.22,1,.36,1);
+}
+.nlinks a:hover::after,.nlinks a.active::after{width:100%}
+
+/* ══ LIVELY: scroll progress bar (circuit trace) ══ */
+#prog{
+  position:fixed;top:0;left:0;height:2.5px;width:0;z-index:900;
+  background:linear-gradient(90deg,var(--cy),var(--gr));
+  box-shadow:0 0 12px var(--cy);transition:width .1s linear;
+}
+
+/* ══ LIVELY: buttons get a spring press ══ */
+.bp,.bg,.ncta,.cmsend{transition:transform .25s cubic-bezier(.34,1.56,.64,1),opacity .2s,background .25s,color .25s,border-color .25s}
+.bp:active,.bg:active,.ncta:active,.cmsend:active{transform:scale(.94)}
+.bp:hover,.bg:hover{transform:translateY(-2px)}
+
+/* ══ LIVELY: project image subtle zoom on card hover ══ */
+.pc-gal img,.gal img{transition:transform .7s cubic-bezier(.22,1,.36,1)}
+.pc:hover .pc-gal img,.feat:hover .gal img{transform:scale(1.04)}
+
+/* ══ LIVELY: publication cards slide their accent bar ══ */
+.pub{transition:transform .4s cubic-bezier(.34,1.56,.64,1),border-left-width .3s,box-shadow .35s}
+.pub:hover{transform:translateX(6px);border-left-width:6px;box-shadow:0 10px 30px var(--shadow)}
+
+/* light-mode nudges */
+html[data-theme="light"] body{background-image:radial-gradient(rgba(150,180,205,.45) 1px,transparent 1px);background-size:30px 30px}
+html[data-theme="light"] .tag{background:rgba(15,157,110,.10)}
+html[data-theme="light"] #bot-wrap{filter:drop-shadow(0 0 10px rgba(10,111,181,.35))}
+html[data-theme="light"] .hphoto img{box-shadow:0 10px 40px var(--shadow)}
+
 </style>
+<script>
+/* ══ THEME ENGINE — applied before first paint to avoid flash ══ */
+(function(){
+  var KEY='pd-theme';
+  window.__themeMode = localStorage.getItem(KEY) || 'auto';
+  window.__resolveAuto = function(){
+    // 1) Respect the OS/device switch (the physical toggle in Settings /
+    //    Control Center). This is what changes prefers-color-scheme.
+    var mq = window.matchMedia('(prefers-color-scheme: dark)');
+    var mqLight = window.matchMedia('(prefers-color-scheme: light)');
+    if(mq.matches) return 'dark';
+    if(mqLight.matches) return 'light';
+    // 2) No OS preference exposed -> fall back to the device's local clock
+    var hr = new Date().getHours();
+    return (hr >= 7 && hr < 19) ? 'light' : 'dark';
+  };
+  window.__applyTheme = function(mode){
+    var t = (mode === 'auto') ? window.__resolveAuto() : mode;
+    document.documentElement.setAttribute('data-theme', t);
+  };
+  window.__applyTheme(window.__themeMode);
+})();
+</script>
 </head>
 <body>
 
 <!-- NAV -->
+<div id="prog"></div>
 <nav>
   <a class="nlogo" href="#hero">PD<span>.</span>dev</a>
   <ul class="nlinks">
@@ -267,24 +467,77 @@ footer{border-top:1px solid var(--bd);padding:34px 56px;display:flex;align-items
     <li><a href="#pubs">Research</a></li>
     <li><a href="#skills">Skills</a></li>
   </ul>
-  <button class="ncta" onclick="openCM()">Contact</button>
+  <div class="navright">
+    <button class="ncta" onclick="openCM()">Contact</button>
+    <button id="thm" onclick="cycleTheme()" title="Theme: Auto / Light / Dark">
+      <span id="thm-ico"></span><span id="thm-lbl">Auto</span>
+    </button>
+  </div>
 </nav>
 
 <!-- HERO -->
 <section id="hero">
   <svg class="cbg" viewBox="0 0 1400 800" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-    <path class="cp" d="M0 220 H320 V140 H600 V220 H940 V300 H1220 V220 H1400" stroke="#5BC4FF" stroke-width="1.4"/>
-    <path class="cp" d="M0 480 H240 V400 H460 V520 H700 V400 H880 V480 H1140 V370 H1400" stroke="#5BC4FF" stroke-width="1"/>
-    <path class="cp" d="M0 680 H200 V610 H440 V680 H720 V740 H980 V680 H1400" stroke="#34D399" stroke-width="1"/>
-    <path class="cp" d="M320 80 V220" stroke="#5BC4FF" stroke-width="1.4"/>
-    <path class="cp" d="M720 220 V370 H880" stroke="#5BC4FF" stroke-width="1"/>
-    <circle cx="320" cy="220" r="4.5" fill="#5BC4FF"/>
-    <circle cx="600" cy="220" r="4.5" fill="#5BC4FF"/>
-    <circle cx="460" cy="400" r="4" fill="#34D399"/>
-    <circle cx="720" cy="680" r="4.5" fill="#34D399"/>
-    <rect x="580" y="82" width="76" height="36" rx="4" stroke="#5BC4FF" stroke-width="1" fill="none" opacity=".32"/>
-    <rect x="860" y="282" width="76" height="36" rx="4" stroke="#5BC4FF" stroke-width="1" fill="none" opacity=".32"/>
-    <defs><filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+    <defs>
+      <filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      <filter id="cglow" x="-200%" y="-200%" width="500%" height="500%">
+        <feGaussianBlur stdDeviation="3.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <!-- trace path definitions reused by the flow overlay + travelling dots -->
+      <path id="t1" d="M0 220 H320 V140 H600 V220 H940 V300 H1220 V220 H1400"/>
+      <path id="t2" d="M0 480 H240 V400 H460 V520 H700 V400 H880 V480 H1140 V370 H1400"/>
+      <path id="t3" d="M0 680 H200 V610 H440 V680 H720 V740 H980 V680 H1400"/>
+      <path id="t4" d="M320 80 V220"/>
+      <path id="t5" d="M720 220 V370 H880"/>
+      <path id="t6" d="M1220 220 V520 H1400"/>
+      <path id="t7" d="M200 610 V300 H580"/>
+    </defs>
+
+    <!-- ══ base traces (dim, drawn on load) ══ -->
+    <g class="tracebase">
+      <use href="#t1" class="cp" stroke="#5BC4FF" stroke-width="1.4"/>
+      <use href="#t2" class="cp" stroke="#5BC4FF" stroke-width="1"/>
+      <use href="#t3" class="cp" stroke="#34D399" stroke-width="1"/>
+      <use href="#t4" class="cp" stroke="#5BC4FF" stroke-width="1.4"/>
+      <use href="#t5" class="cp" stroke="#5BC4FF" stroke-width="1"/>
+      <use href="#t6" class="cp" stroke="#34D399" stroke-width=".9"/>
+      <use href="#t7" class="cp" stroke="#5BC4FF" stroke-width=".9"/>
+    </g>
+
+    <!-- ══ CURRENT FLOW — bright dashes racing along each trace ══ -->
+    <g class="flowlayer" filter="url(#cglow)">
+      <use href="#t1" class="flow f1" stroke="#8FE3FF" stroke-width="2.2"/>
+      <use href="#t2" class="flow f2" stroke="#8FE3FF" stroke-width="1.8"/>
+      <use href="#t3" class="flow f3" stroke="#6BFFC2" stroke-width="1.8"/>
+      <use href="#t4" class="flow f4" stroke="#8FE3FF" stroke-width="2.2"/>
+      <use href="#t5" class="flow f5" stroke="#8FE3FF" stroke-width="1.8"/>
+      <use href="#t6" class="flow f6" stroke="#6BFFC2" stroke-width="1.7"/>
+      <use href="#t7" class="flow f7" stroke="#8FE3FF" stroke-width="1.7"/>
+    </g>
+
+        <!-- ══ travelling charge particles ══ -->
+    <g filter="url(#cglow)">
+      <circle r="3.4" fill="#CFF3FF"><animateMotion dur="18s" repeatCount="indefinite" rotate="auto"><mpath href="#t1"/></animateMotion></circle>
+      <circle r="2.8" fill="#CFF3FF"><animateMotion dur="24s" begin="-8s" repeatCount="indefinite"><mpath href="#t2"/></animateMotion></circle>
+      <circle r="2.8" fill="#9BFFD8"><animateMotion dur="21s" begin="-4s" repeatCount="indefinite"><mpath href="#t3"/></animateMotion></circle>
+      <circle r="2.6" fill="#CFF3FF"><animateMotion dur="13s" begin="-5s" repeatCount="indefinite"><mpath href="#t5"/></animateMotion></circle>
+      <circle r="2.4" fill="#9BFFD8"><animateMotion dur="17s" begin="-9s" repeatCount="indefinite"><mpath href="#t6"/></animateMotion></circle>
+      <circle r="2.4" fill="#CFF3FF"><animateMotion dur="20s" begin="-11s" repeatCount="indefinite"><mpath href="#t7"/></animateMotion></circle>
+    </g>
+
+    <!-- ══ junction pads — flicker as charge passes ══ -->
+    <circle class="pad p1" cx="320" cy="220" r="4.5" fill="#5BC4FF"/>
+    <circle class="pad p2" cx="600" cy="220" r="4.5" fill="#5BC4FF"/>
+    <circle class="pad p3" cx="460" cy="400" r="4" fill="#34D399"/>
+    <circle class="pad p4" cx="720" cy="680" r="4.5" fill="#34D399"/>
+    <circle class="pad p5" cx="1220" cy="220" r="4" fill="#5BC4FF"/>
+    <circle class="pad p6" cx="200" cy="610" r="4" fill="#5BC4FF"/>
+
+    <!-- ══ IC packages ══ -->
+    <rect class="chip" x="580" y="82" width="76" height="36" rx="4" stroke="#5BC4FF" stroke-width="1" fill="none" opacity=".32"/>
+    <rect class="chip c2" x="860" y="282" width="76" height="36" rx="4" stroke="#5BC4FF" stroke-width="1" fill="none" opacity=".32"/>
+
+    <!-- ══ halo blooms ══ -->
     <circle cx="320" cy="220" r="9" fill="#5BC4FF" opacity=".15" filter="url(#glow)"/>
     <circle cx="720" cy="680" r="9" fill="#34D399" opacity=".15" filter="url(#glow)"/>
   </svg>
@@ -443,7 +696,7 @@ footer{border-top:1px solid var(--bd);padding:34px 56px;display:flex;align-items
     </div>
 
     <div class="pc">
-      <img data-src="vocaleyes3" alt="VocalEyes Cap Mount CAD" style="background:#e0e0e0;object-fit:contain;padding:16px;cursor:zoom-in" onclick="lb(this.src)"/>
+      <img data-src="vocaleyes3" alt="VocalEyes Cap Mount CAD" style="background:var(--cadbg);object-fit:contain;padding:16px;cursor:zoom-in" onclick="lb(this.src)"/>
       <div class="pcb2">
         <div class="pcname">VocalEyes</div>
         <div class="pcsub">Feb 2025 – Dec 2026 · Assistive Technology</div>
@@ -499,8 +752,8 @@ footer{border-top:1px solid var(--bd);padding:34px 56px;display:flex;align-items
 
   <h2 class="h2s">Mechanical <span class="dm">Design</span></h2>
   <div class="hwg rv">
-    <div class="hwi" onclick="lb(document.querySelector('[data-key=vocaleyes3]').src,'VocalEyes Cap Mount — Iteration 3.1. Universal 3D-printed ergonomic mount designed for Raspberry Pi 5 and the Pi Camera 3 Module. Self-ideated design fits any head size; modular bracket system enables quick swap of the camera and DAC module.')"><img data-src="vocaleyes3" data-key="vocaleyes3" alt="VocalEyes Itr 3.1" style="object-fit:contain;background:#ddd;padding:16px"/><div class="hwcap"><h4>VocalEyes — Cap Mount Itr 3.1</h4><p>Universal ergonomic mount for Raspberry Pi 5 assistive device · SolidWorks</p></div></div>
-    <div class="hwi" onclick="lb(document.querySelector('[data-key=vocaleyes4]').src,'VocalEyes Cap Mount — Iteration 4 (Trial Phase). Refined prototype with improved weight distribution, tighter component fitment, and reduced print time. Structural arc redesign improved rigidity while maintaining ergonomic adaptability across different head geometries.')"><img data-src="vocaleyes4" data-key="vocaleyes4" alt="VocalEyes Itr 4 Trial" style="object-fit:contain;background:#ddd;padding:16px"/><div class="hwcap"><h4>VocalEyes — Cap Mount Itr 4 (Trial)</h4><p>Refined prototype — improved fitment, reduced weight · SolidWorks</p></div></div>
+    <div class="hwi" onclick="lb(document.querySelector('[data-key=vocaleyes3]').src,'VocalEyes Cap Mount — Iteration 3.1. Universal 3D-printed ergonomic mount designed for Raspberry Pi 5 and the Pi Camera 3 Module. Self-ideated design fits any head size; modular bracket system enables quick swap of the camera and DAC module.')"><img data-src="vocaleyes3" data-key="vocaleyes3" alt="VocalEyes Itr 3.1" style="object-fit:contain;background:var(--cadbg);padding:16px"/><div class="hwcap"><h4>VocalEyes — Cap Mount Itr 3.1</h4><p>Universal ergonomic mount for Raspberry Pi 5 assistive device · SolidWorks</p></div></div>
+    <div class="hwi" onclick="lb(document.querySelector('[data-key=vocaleyes4]').src,'VocalEyes Cap Mount — Iteration 4 (Trial Phase). Refined prototype with improved weight distribution, tighter component fitment, and reduced print time. Structural arc redesign improved rigidity while maintaining ergonomic adaptability across different head geometries.')"><img data-src="vocaleyes4" data-key="vocaleyes4" alt="VocalEyes Itr 4 Trial" style="object-fit:contain;background:var(--cadbg);padding:16px"/><div class="hwcap"><h4>VocalEyes — Cap Mount Itr 4 (Trial)</h4><p>Refined prototype — improved fitment, reduced weight · SolidWorks</p></div></div>
   </div>
 </div>
 </section>
@@ -988,10 +1241,72 @@ bot.addEventListener('click',function(e){
   },5000+Math.random()*9000);
 })();
 
+/* expose for theme toggle */
+window.botSay=say; window.botMood=mood; window.botWink=wink;
+
 /* INIT */
 mood('happy');
 setTimeout(function(){say('Hi! I am MARS-Bot! &#x1F916; Click me!',3500);},1800);
 })();
+
+/* ══ THEME TOGGLE UI ══ */
+var ICONS={
+  auto:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 000 18z" fill="currentColor" stroke="none"/></svg>',
+  light:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></svg>',
+  dark:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.4A8.6 8.6 0 019.6 3.5a8.7 8.7 0 106.9 10.9z"/></svg>'
+};
+var LBL={auto:'Auto',light:'Light',dark:'Dark'};
+function paintThemeBtn(){
+  var b=document.getElementById('thm');if(!b)return;
+  var m=window.__themeMode;
+  document.getElementById('thm-ico').innerHTML=ICONS[m];
+  document.getElementById('thm-lbl').textContent=LBL[m];
+  b.title='Theme: '+LBL[m]+(m==='auto'?' (follows your device)':'');
+}
+function cycleTheme(){
+  var order=['auto','light','dark'];
+  var i=order.indexOf(window.__themeMode);
+  window.__themeMode=order[(i+1)%3];
+  localStorage.setItem('pd-theme',window.__themeMode);
+  document.documentElement.classList.add('theming');
+  window.__applyTheme(window.__themeMode);
+  paintThemeBtn();
+  var b=document.getElementById('thm');
+  b.classList.add('spin');setTimeout(function(){b.classList.remove('spin');},600);
+  setTimeout(function(){document.documentElement.classList.remove('theming');},600);
+  if(typeof window.botSay==='function'){
+    window.botSay(window.__themeMode==='auto'?'Following your device! &#x1F31E;&#x1F319;'
+      :window.__themeMode==='light'?'Lights on! &#x2600;&#xFE0F;':'Dark mode! &#x1F319;',2400);
+    if(window.botWink)window.botWink('r');
+  }
+}
+paintThemeBtn();
+
+/* live-follow the OS switch while in Auto mode */
+(function(){
+  var mq=window.matchMedia('(prefers-color-scheme: dark)');
+  var onChange=function(){
+    if(window.__themeMode==='auto'){
+      document.documentElement.classList.add('theming');
+      window.__applyTheme('auto');
+      setTimeout(function(){document.documentElement.classList.remove('theming');},600);
+    }
+  };
+  if(mq.addEventListener)mq.addEventListener('change',onChange);
+  else if(mq.addListener)mq.addListener(onChange);
+  /* re-check the clock every 5 min so an evening rollover flips it */
+  setInterval(function(){ if(window.__themeMode==='auto') window.__applyTheme('auto'); },300000);
+})();
+
+/* ══ SCROLL PROGRESS BAR ══ */
+(function(){
+  var bar=document.getElementById('prog');if(!bar)return;
+  window.addEventListener('scroll',function(){
+    var h=document.documentElement.scrollHeight-window.innerHeight;
+    bar.style.width=(h>0?(window.scrollY/h)*100:0)+'%';
+  },{passive:true});
+})();
+
 </script>
 </body>
 </html>
