@@ -52,6 +52,7 @@ The site is intentionally simple: one hand-written HTML file, no framework, no b
 | Backend | Vercel Serverless Function (Node.js) |
 | Email | [Nodemailer](https://nodemailer.com) over Gmail SMTP |
 | Hosting | [Vercel](https://vercel.com), auto-deployed from this repo |
+| Analytics | Vercel Web Analytics |
 
 ## Project structure
 
@@ -62,9 +63,21 @@ pranjay-portfolio/
 │   └── contact.js    # Serverless function behind the contact form
 ├── images/           # Image assets (drone, rover, and PCB photos)
 ├── resume.pdf        # Opened by the Resume button
+├── og-image.jpg      # 1200×630 preview card for link sharing
+├── favicon.svg       # Site icon (favicon.ico is the fallback)
+├── favicon.ico
+├── robots.txt        # Crawler rules and sitemap location
+├── sitemap.xml
 ├── package.json      # Dependencies (nodemailer)
-└── vercel.json       # Function settings (256 MB memory, 10 s max duration)
+└── vercel.json       # Function settings and redirects to the primary domain
 ```
+
+## SEO, sharing and analytics
+
+- **Search and link previews:** the `<head>` of `index.html` has a meta description, a canonical URL, Open Graph and Twitter card tags (using `og-image.jpg`), and JSON-LD structured data describing me and this site.
+- **One primary address:** `vercel.json` permanently redirects `pranjay-dhawan.vercel.app` and the long `pranjay-portfolio-…vercel.app` address to **https://pd-dev.vercel.app**, so search ranking and analytics are not split.
+- **Analytics:** the page loads [Vercel Web Analytics](https://vercel.com/docs/analytics). It only records data once Analytics is switched on in the Vercel project (*Analytics* tab).
+- **Tracking links:** add UTM parameters to shared links, for example `https://pd-dev.vercel.app/?utm_source=linkedin&utm_campaign=company-name`, to see which outreach brings visitors.
 
 ## Run it locally
 
@@ -107,8 +120,9 @@ It reads its credentials from two environment variables:
 | --- | --- |
 | Text, sections, projects, skills | `index.html` |
 | Resume | Replace `resume.pdf` with the new file, keeping the same name |
+| Search description, link preview, structured data | The `<head>` of `index.html`, and `og-image.jpg` |
 | Recipient of contact emails, email template | `api/contact.js` |
-| Function memory or timeout | `vercel.json` |
+| Function memory or timeout, redirects | `vercel.json` |
 
 ## Deployment
 
