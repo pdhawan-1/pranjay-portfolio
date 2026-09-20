@@ -567,6 +567,13 @@ html[data-theme="light"] .chip,html[data-theme="light"] .scc span{
   .gslides img{height:240px}
 }
 
+
+/* ── OPEN-TO-WORK BADGE ── */
+.otw{display:inline-flex;align-items:center;gap:10px;max-width:100%;font-family:var(--fm);font-size:14px;color:var(--gr);background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.28);padding:7px 15px;border-radius:999px;margin-bottom:22px}
+.otw i{flex:none;width:8px;height:8px;border-radius:50%;background:var(--gr);animation:otwp 2s infinite}
+@keyframes otwp{0%{box-shadow:0 0 0 0 rgba(52,211,153,.55)}70%{box-shadow:0 0 0 9px rgba(52,211,153,0)}100%{box-shadow:0 0 0 0 rgba(52,211,153,0)}}
+html[data-theme="light"] .otw{background:rgba(15,157,110,.10);border-color:rgba(15,157,110,.32)}
+@media(prefers-reduced-motion:reduce){.otw i{animation:none}}
 </style>
 <script>
 /* ══ THEME ENGINE — applied before first paint to avoid flash ══ */
@@ -683,6 +690,7 @@ html[data-theme="light"] .chip,html[data-theme="light"] .scc span{
 
   <div class="hi">
     <div class="ht">
+      <div class="otw"><i></i>Open to full-time roles</div>
       <div class="hlbl">Electronics · Robotics · Embedded Systems</div>
       <h1>Pranjay<br/><span class="ac">Dhawan</span></h1>
       <p class="hsub">B.E. ECE student at Thapar Institute. I build hardware that moves — Martian rovers, drones, and EV monitoring systems. Champion at IRC 2026.</p>
