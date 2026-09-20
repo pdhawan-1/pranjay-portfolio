@@ -25,7 +25,7 @@ The site is intentionally simple: one hand-written HTML file, no framework, no b
 | Section | Contents |
 | --- | --- |
 | **About** | Background, education (B.E. ECE at Thapar Institute, Diploma in ECE at CCET), and key numbers |
-| **Experience** | Product R&D Engineer at Zipbolt Innovation; Core Electronics Engineer at The MindCrafters |
+| **Experience** | Research Associate at Thapar Institute (exoskeleton system integration); Product R&D Engineer at Zipbolt Innovation; Core Electronics Engineer at The MindCrafters |
 | **Projects** | Martian Rovers *Ganga* and *Alaknanda*, Drone *Garud*, and *VocalEyes* (assistive device), each with an image gallery |
 | **Hardware** | PCB design gallery (main board, PDU, current-limiting protection, solid-state relay, sensor boards) and mechanical CAD |
 | **Research** | Conference publications (ICSCPS 2026, AIR 2025, IFToMM 2025) |
