@@ -28,7 +28,7 @@ The site is intentionally simple: one hand-written HTML file, no framework, no b
 | **Experience** | Research Associate at Thapar Institute (exoskeleton system integration); Product R&D Engineer at Zipbolt Innovation; Core Electronics Engineer at The MindCrafters |
 | **Projects** | Martian Rovers *Ganga* and *Alaknanda*, Drone *Garud*, and *VocalEyes* (assistive device), each with an image gallery |
 | **Hardware** | PCB design gallery (main board, PDU, current-limiting protection, solid-state relay, sensor boards) and mechanical CAD |
-| **Research** | Conference publications (ICSCPS 2026, AIR 2025, IFToMM 2025) |
+| **Research** | Conference publications (IROS 2026 ROSE Workshop, ICSCPS 2026, AIR 2025, IFToMM 2025) |
 | **Skills** | EDA tools, mechanical/3D, firmware, platforms, and core domains |
 | **Honors** | IRC 2026 Champion, ISDC 2026 1st Runner Up, IRC 2025 1st Runner Up, Thapar merit scholarship |
 
